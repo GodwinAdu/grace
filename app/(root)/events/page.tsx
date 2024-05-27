@@ -34,7 +34,7 @@ const page = () => {
                         
                         {/* Event 3 */}
                         <div className="dark:bg-primary/10 bg-primary/[3%] rounded-lg shadow-md p-6 space-y-4">
-                            <h2 className="mb-4 text-xl font-bold text-black dark:text-white sm:text-2xl lg:text-xl xl:text-2xl">Women's Prayer Breakfast</h2>
+                            <h2 className="mb-4 text-xl font-bold text-black dark:text-white sm:text-2xl lg:text-xl xl:text-2xl">Women&apos;s Prayer Breakfast</h2>
                             <p  className="text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">A morning dedicated to the women of our ministry to come together in prayer and share testimonies.</p>
                             <p className="text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">Date: 20th July | Time: 9:00 AM</p>
                             

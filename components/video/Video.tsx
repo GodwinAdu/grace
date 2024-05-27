@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import ModalVideo from "react-modal-video";
 import SectionTitle from "../commons/SectionTitle";
+import Image from "next/image";
 
 const Video = () => {
   const [isOpen, setOpen] = useState(false);
@@ -26,9 +27,10 @@ const Video = () => {
               data-wow-delay=".15s"
             >
               <div className="relative aspect-[77/40] items-center justify-center">
-                <img src="/assets/others/video-image.jpg" alt="video image"  className='shadow-xl' />
+                <Image src="/assets/others/video-image.jpg" alt="video image" width={200} height={200}  className='shadow-xl' />
                 <div className="absolute top-0 right-0 flex h-full w-full items-center justify-center">
                   <button
+                  aria-label="close button"
                     onClick={() => setOpen(true)}
                     className="flex h-[70px] w-[70px] items-center justify-center rounded-full bg-white bg-opacity-75 text-primary2 transition hover:bg-opacity-100"
                   >
@@ -50,7 +52,7 @@ const Video = () => {
 
       <ModalVideo
         channel="youtube"
-        start={true}
+        // start={true}
         isOpen={isOpen}
         videoId="L61p2uyiMSo"
         onClose={() => setOpen(false)}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import SectionTitle from "../commons/SectionTitle";
 
 const checkIcon = (
@@ -54,10 +55,11 @@ const AboutSectionOne = () => {
                 className="wow fadeInUp relative mx-auto aspect-[25/24] max-w-[500px] lg:mr-0"
                 data-wow-delay=".2s"
               >
-                <img
+                <Image
                   src="/assets/blogs/prayer-home.jpg"
                   alt="about-image"
                   className="mx-auto max-w-full lg:mr-0 shadow-xl"
+                  fill
                 />
               </div>
             </div>
