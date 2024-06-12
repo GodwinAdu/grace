@@ -5,7 +5,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { ICategory } from "@/lib/database/models/category.model"
 import { startTransition, useEffect, useState } from "react"
 import {
     AlertDialog,
@@ -27,7 +26,7 @@ type DropdownProps = {
 }
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
-    const [categories, setCategories] = useState<ICategory[]>([])
+    const [categories, setCategories] = useState<any[]]>([])
     const [newCategory, setNewCategory] = useState('');
 
     const handleAddCategory = () => {

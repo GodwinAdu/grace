@@ -1,5 +1,6 @@
 import { getSermonById } from '@/lib/actions/sermon.actions'
 import moment from 'moment'
+import Image from 'next/image'
 import React from 'react'
 
 const page = async ({params}:{params:{sermonId:string}}) => {
@@ -7,7 +8,7 @@ const page = async ({params}:{params:{sermonId:string}}) => {
   return (
     <>
       <div className=" shadow-lg rounded-lg overflow-hidden">
-      <img src={sermon?.imageUrl} alt={sermon?.title} width={200} height={200} className="w-full object-cover " />
+      <Image src={sermon?.imageUrl} alt={sermon?.title} width={200} height={200} className="w-full object-cover " />
 
       <div className="p-4">
         <h3 className="mb-4 mt-4 text-3xl font-bold !leading-tight text-black dark:text-white sm:text-4xl md:text-[45px]">{sermon?.sermonTopic}</h3>
@@ -25,7 +26,7 @@ const page = async ({params}:{params:{sermonId:string}}) => {
         <p className="text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">{sermon?.sermonBody}</p>
 
         <div className="flex items-center mt-4">
-          <img src={sermon?.author.photo} alt={sermon?.author.firstName} className="w-10 h-10 rounded-full object-cover object-center" />
+          <Image fill src={sermon?.author.photo} alt={sermon?.author.firstName} className="w-10 h-10 rounded-full object-cover object-center" />
           <div className="ml-2">
             <p className="text-base text-sm font-medium leading-relaxed text-body-color sm:leading-relaxed">{sermon?.author.firstName} {sermon.author.lastName}</p>
             <p className="text-base text-xs font-medium leading-relaxed text-body-color sm:leading-relaxed">{sermon?.author.duty}</p>
