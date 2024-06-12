@@ -1,9 +1,6 @@
-import EventForm from "@/components/dashboard/EventForm";
-import SermonForm from "@/components/dashboard/SermonForm";
+
 import { Separator } from "@/components/ui/separator";
-import { getEventById } from "@/lib/actions/event.actions";
 import { getSermonById } from "@/lib/actions/sermon.actions";
-import { auth } from "@clerk/nextjs/server";
 import CreateSermonForm from "../../_components/CreateSermonForm";
 
 
