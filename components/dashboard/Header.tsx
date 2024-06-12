@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Header = ({name}:{name:string}) => {
+const Header = ({name}:{name:string | null}) => {
     return (
 
         <div className="bg-gray-50">

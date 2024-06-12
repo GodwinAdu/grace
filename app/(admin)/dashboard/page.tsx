@@ -16,8 +16,8 @@ import { redirect } from "next/navigation"
 
 const page = async () => {
   const user = await currentUser();
-  
-  if(!user) redirect("/");
+
+  if (!user) redirect("/");
 
   const users = (await getAllUsers()) || [];
   return (
@@ -71,6 +71,37 @@ const page = async () => {
             </CardContent>
           </Card>
         </div>
+      </div>
+      <div className="grid  grid-cols-3 grid-rows-3 gap-4 py-5">
+        <div className="col-span-2 h-full">
+          <Card className="">
+            <CardHeader>
+              <CardTitle>Recents Users</CardTitle>
+              <Separator />
+            </CardHeader>
+            <CardContent>
+              <p>Card Content</p>
+            </CardContent>
+            <CardFooter>
+              <p>Card Footer</p>
+            </CardFooter>
+          </Card>
+        </div>
+        <div className="">
+          <Card className="">
+            <CardHeader>
+              <CardTitle>Contact Notifications</CardTitle>
+              <Separator />
+            </CardHeader>
+            <CardContent>
+              <p>Card Content</p>
+            </CardContent>
+            <CardFooter>
+              <p>Card Footer</p>
+            </CardFooter>
+          </Card>
+        </div>
+
       </div>
 
     </main>

@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import ScrollUp from "@/components/commons/ScrollUp";
 import ScrollToTop from "@/components/scrollToTop/ScrollToTop";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Toaster />
             <ScrollUp />
             {children}
             <ScrollToTop />

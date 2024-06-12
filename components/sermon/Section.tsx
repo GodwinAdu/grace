@@ -1,33 +1,31 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import blogData from '../blog/blogData';
 import SingleBlog from '../blog/SingleBlog';
 
 
 const POSTS_PER_PAGE = 4;
-const Section = () => {
+const Section = ({sermon}) => {
     const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(blogData.length / POSTS_PER_PAGE);
+  const totalPages = Math.ceil(sermon.length / POSTS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const endIndex = startIndex + POSTS_PER_PAGE;
-  const currentPosts = blogData.slice(startIndex, endIndex);
+  const currentPosts = sermon.slice(startIndex, endIndex);
 
   useEffect(() => {
     // Reset to the first page if the data changes (for example, if you load new posts)
     setCurrentPage(1);
   }, []);
   return (
-    <section className="pt-[120px] pb-[120px]">
+    <section className="py-6">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
             {currentPosts.map((blog) => (
               <div
-                key={blog.id}
-                className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
+                key={blog._id}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
               >
                   <SingleBlog blog={blog} />
-              
               </div>
             ))}
           </div>

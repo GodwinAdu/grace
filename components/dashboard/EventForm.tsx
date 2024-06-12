@@ -18,8 +18,16 @@ import { useUploadThing } from '@/lib/uploadthing'
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox"
-import { useRouter } from "next/navigation"
-import { eventDefaultValues } from "@/lib/utils"
+import { usePathname, useRouter } from "next/navigation"
+import { cn, eventDefaultValues } from "@/lib/utils"
+import MultiText from "./MultiText"
+import { CalendarIcon } from "lucide-react"
+import { Calendar } from "../ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { format } from "date-fns"
+import { Switch } from "../ui/switch"
+import { createEvent, updateEvent } from "@/lib/actions/event.actions"
+import { toast } from "../ui/use-toast"
 
 
 type EventFormProps = {
@@ -39,6 +47,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         }
         : eventDefaultValues;
     const router = useRouter();
+    const path = usePathname()
 
     const { startUpload } = useUploadThing('imageUploader')
 
@@ -46,6 +55,8 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         resolver: zodResolver(eventFormSchema),
         defaultValues: initialValues
     })
+
+    const {isSubmitting} = form.formState;
 
     async function onSubmit(values: z.infer<typeof eventFormSchema>) {
         let uploadedImageUrl = values.imageUrl;
@@ -61,56 +72,76 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         }
 
         if (type === 'Create') {
-            //   try {
-            //     const newEvent = await createEvent({
-            //       event: { ...values, imageUrl: uploadedImageUrl },
-            //       userId,
-            //       path: '/profile'
-            //     })
+            try {
+                await createEvent({
+                    event: { ...values, imageUrl: uploadedImageUrl },
+                    userId,
+                    path
+                })
 
-            //     if(newEvent) {
-            //       form.reset();
-            //       router.push(`/events/${newEvent._id}`)
-            //     }
-            //   } catch (error) {
-            //     console.log(error);
+                form.reset();
+                router.push(`/dashboard/events`);
+                toast({
+                    title: "Event Created Successfully",
+                    description: "Please Event was created successfully...",
+                    // status:'success'
+                })
+
+            } catch (error) {
+                console.log(error);
+                toast({
+                    title: "Something Went Wrong",
+                    description: "Please try again later",
+                    variant: "destructive",
+                });
+
+            }
         }
-    }
 
-    if (type === 'Update') {
-        if (!eventId) {
-            router.back()
-            return;
+        if (type === 'Update') {
+            if (!eventId) {
+                router.back()
+                return;
+            }
+
+            try {
+                const updatedEvent = await updateEvent({
+                    userId,
+                    event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+                    path
+                })
+
+
+                form.reset();
+                router.push(`/dashboard/events/${updatedEvent._id}`)
+                toast({
+                    title: "Event Updated Successfully",
+                    description: "Please Event was updated successfully...",
+                    // status:'success'
+                })
+            } catch (error) {
+                console.log(error);
+                toast({
+                    title: "Something Went Wrong",
+                    description: "Please try again later",
+                    variant: "destructive",
+                });
+            }
         }
-
-        //   try {
-        //     const updatedEvent = await updateEvent({
-        //       userId,
-        //       event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
-        //       path: `/events/${eventId}`
-        //     })
-
-        //     if(updatedEvent) {
-        //       form.reset();
-        //       router.push(`/events/${updatedEvent._id}`)
-        //     }
-        //   } catch (error) {
-        //     console.log(error);
-        //   }
-        // }
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 space-y-6">
-                <div className="flex flex-col gap-5 md:flex-row">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <FormField
                         control={form.control}
                         name="title"
                         render={({ field }) => (
-                            <FormItem className="w-full">
+                            <FormItem>
+                                <FormLabel>Title</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Event title" {...field} className="input-field" />
+                                    <Input placeholder="Enter the" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -118,27 +149,46 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                     />
                     <FormField
                         control={form.control}
-                        name="categoryId"
+                        name="location"
                         render={({ field }) => (
-                            <FormItem className="w-full">
+                            <FormItem>
+                                <FormLabel>Location</FormLabel>
                                 <FormControl>
-                                    <Dropdown onChangeHandler={field.onChange} value={field.value} />
+                                    <Input placeholder="Enter event location" {...field} />
                                 </FormControl>
+
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                </div>
+                    <FormField
+                        control={form.control}
+                        name="price"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Price</FormLabel>
+                                <FormControl>
+                                    <Input type="number" placeholder="Enter enter price (optional)" {...field} />
+                                </FormControl>
 
-                <div className="flex flex-col gap-5 md:flex-row">
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="description"
                         render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormControl className="h-72">
-                                    <Textarea placeholder="Description" {...field} className="textarea rounded-2xl" />
+                            <FormItem>
+                                <FormLabel>Description</FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        placeholder="Tell us a little bit about the Event"
+                                        className="resize-none"
+                                        {...field}
+                                    />
                                 </FormControl>
+
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -147,119 +197,164 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                         control={form.control}
                         name="imageUrl"
                         render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormControl className="h-72">
+                            <FormItem>
+                                <FormLabel>Upload Image</FormLabel>
+                                <FormControl>
                                     <FileUploader
                                         onFieldChange={field.onChange}
                                         imageUrl={field.value}
                                         setFiles={setFiles}
                                     />
                                 </FormControl>
+
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                </div>
-
-                <div className="">
                     <FormField
                         control={form.control}
-                        name="location"
+                        name="categories"
                         render={({ field }) => (
-                            <FormItem className="w-full">
+                            <FormItem>
+                                <FormLabel>Add Tags</FormLabel>
                                 <FormControl>
-                                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                                        <Image
-                                            src="/assets/icons/location-grey.svg"
-                                            alt="calendar"
-                                            width={24}
-                                            height={24}
-                                        />
-
-                                        <Input placeholder="Event location or Online" {...field} className="" />
-                                    </div>
-
+                                    <MultiText
+                                        placeholder="Tags"
+                                        value={field.value}
+                                        onChange={(tag) =>
+                                            field.onChange([...field.value, tag])
+                                        }
+                                        onRemove={(tagToRemove) =>
+                                            field.onChange([
+                                                ...field.value.filter(
+                                                    (tag) => tag !== tagToRemove
+                                                ),
+                                            ])
+                                        }
+                                    />
                                 </FormControl>
+
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                </div>
-
-                <div className="flex flex-col gap-5 md:flex-row">
                     <FormField
                         control={form.control}
-                        name="startDateTime"
+                        name="startDate"
                         render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormControl>
-                                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                                        <Image
-                                            src="/assets/icons/calendar.svg"
-                                            alt="calendar"
-                                            width={24}
-                                            height={24}
-                                            className="filter-grey"
-                                        />
-                                        <p className="ml-3 whitespace-nowrap text-grey-600">Start Date:</p>
-                                        <DatePicker
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Select Start Date</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-[240px] pl-3 text-left font-normal",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>Pick a date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="single"
                                             selected={field.value}
-                                            onChange={(date: Date) => field.onChange(date)}
-                                            showTimeSelect
-                                            timeInputLabel="Time:"
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            wrapperClassName="datePicker"
+                                            onSelect={field.onChange}
+                                            initialFocus
                                         />
-                                    </div>
+                                    </PopoverContent>
+                                </Popover>
 
-                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-
                     <FormField
                         control={form.control}
-                        name="endDateTime"
+                        name="endDate"
                         render={({ field }) => (
-                            <FormItem className="w-full">
-                                <FormControl>
-                                    <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-                                        <Image
-                                            src="/assets/icons/calendar.svg"
-                                            alt="calendar"
-                                            width={24}
-                                            height={24}
-                                            className="filter-grey"
-                                        />
-                                        <p className="ml-3 whitespace-nowrap text-grey-600">End Date:</p>
-                                        <DatePicker
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Select End Date</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-[240px] pl-3 text-left font-normal",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>Pick a date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="single"
                                             selected={field.value}
-                                            onChange={(date: Date) => field.onChange(date)}
-                                            showTimeSelect
-                                            timeInputLabel="Time:"
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            wrapperClassName="datePicker"
+                                            onSelect={field.onChange}
+                                            initialFocus
                                         />
-                                    </div>
+                                    </PopoverContent>
+                                </Popover>
 
-                                </FormControl>
                                 <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="url"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Url</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter link or url (optional)" {...field} />
+                                </FormControl>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="isFree"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                    <FormLabel className="text-base">
+                                        Is Free
+                                    </FormLabel>
+                                    <FormDescription>
+                                        Specify to user if the Event is free or not.
+                                    </FormDescription>
+                                </div>
+                                <FormControl>
+                                    <Switch
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                    />
+                                </FormControl>
                             </FormItem>
                         )}
                     />
                 </div>
-
-               
-
-
-                <Button
-                    type="submit"
-                    disabled={form.formState.isSubmitting}
-                >
-                    {form.formState.isSubmitting ? (
-                        'Submitting...'
-                    ) : `${type} Event `}
+                <Button disabled={isSubmitting} type="submit">
+                    {isSubmitting ? "Submitting..." : "Submit"}
                 </Button>
             </form>
         </Form>

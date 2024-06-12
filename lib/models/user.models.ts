@@ -10,6 +10,10 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+  duty:{
+    type:String,
+    default:'Pastor'
+  },
   events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
   sermons: [{ type: Schema.Types.ObjectId, ref: "Sermon" }],
   created: { type: Date, default: Date.now },

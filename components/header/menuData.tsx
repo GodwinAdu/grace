@@ -64,6 +64,12 @@ const menuData = [
           path: "/ministries",
           newTab: false,
         },
+        {
+          id: 43,
+          title: "Sign In",
+          path: "/sign-in",
+          newTab: false,
+        },
       ],
     },
   ];

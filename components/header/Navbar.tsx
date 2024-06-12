@@ -30,7 +30,7 @@ const Navbar = () => {
 
   // submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index:number) => {
+  const handleSubmenu = (index: number) => {
     if (openIndex === index) {
       setOpenIndex(-1);
     } else {
@@ -141,13 +141,15 @@ const Navbar = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end gap-4 pr-16 lg:pr-0">
-                <SignedOut>
-                  <SignInButton/>
-                </SignedOut>
+                <div className="hidden md:block">
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                </div>
                 <SignedIn>
                   <UserButton />
                 </SignedIn>
-              
+
                 <div>
                   <ModeToggle />
                 </div>

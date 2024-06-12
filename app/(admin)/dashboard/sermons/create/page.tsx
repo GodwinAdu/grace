@@ -1,6 +1,7 @@
 import EventForm from "@/components/dashboard/EventForm";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@clerk/nextjs/server";
+import CreateSermonForm from "../_components/CreateSermonForm";
 
 
 const CreateEvent = () => {
@@ -14,6 +15,9 @@ const CreateEvent = () => {
                     {/* <Link href="/dashboard/events/create" className={cn(buttonVariants({ size: "sm" }))}> <MdAdd className="mr-2 font-bold" />Create</Link> */}
                 </div>
                 <Separator className="my-3" />
+                <div className="py-5">
+                    <CreateSermonForm type="Create"/>
+                </div>
             </main>
         </>
     )
