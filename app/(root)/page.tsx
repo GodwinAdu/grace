@@ -7,6 +7,8 @@ import Contact from "@/components/contact/Contact";
 import EventBanner from "@/components/event/EventBanner";
 import Features from "@/components/features/Features";
 import Hero from "@/components/hero/Hero";
+import Hero2 from "@/components/hero/Hero2";
+import Hero3 from "@/components/hero/Hero3";
 import Video from "@/components/video/Video";
 import { fetchEvents } from "@/lib/actions/event.actions";
 
@@ -17,7 +19,7 @@ export default async function Home() {
   return (
     <>
 
-      <Hero />
+      <Hero3 />
       {event &&   <EventBanner event={event} />}
       <Features />
       <ChurchServices />
