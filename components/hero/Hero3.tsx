@@ -12,6 +12,7 @@ import 'swiper/css/scrollbar';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '../ui/button';
+import StreamingModal from './StreamingModal';
 
 // Install modules
 
@@ -22,16 +23,11 @@ const Hero: React.FC = () => {
             <div className="container mx-auto flex flex-col md:flex-row items-center">
                 <div className="md:w-1/2 text-center md:text-left md:pr-8">
                     <h1 className="text-4xl font-bold mb-4 text-center"> Welcome to Altar of Grace Pentecostal Ministry</h1>
-                    <p className="text-lg mb-6 text-center"> At Altar of Grace Ministry, we believe in spreading the love and grace of God to all.
+                    <p className="text-lg mb-6 text-start leading-7 "> At Altar of Grace Ministry, we believe in spreading the love and grace of God to all.
                         Our mission is to create a welcoming and nurturing community where everyone can experience
                         God&apos;s presence, grow in faith, and find purpose in life.</p>
-                    <div className=" inline-flex gap-4">
-                        <Link href="/about" className={cn(buttonVariants())} >
-                            About Us
-                        </Link>
-                        <Link href="/about" className={cn(buttonVariants({variant:"outline"}))} >
-                            Learn more...
-                        </Link>
+                    <div className="flex items-center justify-center text-center">
+                        <StreamingModal />
                     </div>
                 </div>
                 <div className="md:w-1/2">
