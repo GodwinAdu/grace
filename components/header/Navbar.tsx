@@ -6,9 +6,13 @@ import Image from "next/image";
 import { ModeToggle } from "../ModeToggle";
 import { SignedOut, SignInButton } from "@clerk/nextjs";
 import { Button } from "../ui/button";
-import { SignedIn, UserButton } from "@clerk/clerk-react";
+import { SignedIn, UserButton, useUser } from "@clerk/clerk-react";
 
-const Navbar = () => {
+const Navbar = ({ isAdmin }: { isAdmin: boolean }) => {
+  // Check if the user is an admin
+
+  console.log(isAdmin,"is admin")
+
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -137,6 +141,17 @@ const Navbar = () => {
                         )}
                       </li>
                     ))}
+                    {isAdmin && (
+                      <li key="dashboard" className="group relative">
+                        <Link
+                          onClick={() => setNavbarOpen(false)}
+                          href="/dashboard"
+                          className="flex py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0"
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                    )}
                   </ul>
                 </nav>
               </div>
@@ -149,7 +164,6 @@ const Navbar = () => {
                 <SignedIn>
                   <UserButton />
                 </SignedIn>
-
                 <div>
                   <ModeToggle />
                 </div>

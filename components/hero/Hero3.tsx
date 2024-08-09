@@ -1,78 +1,26 @@
 "use client"
 // import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '../ui/button';
-import StreamingModal from './StreamingModal';
-
-// Install modules
-
-
-const Hero: React.FC = () => {
+const Hero = ({colorDeep, mainText, shadow, mobileShadow, subText, img}) => {
     return (
-        <section className="bg-transparent py-12 mt-10">
-            <div className="container mx-auto flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 text-center md:text-left md:pr-8">
-                    <h1 className="text-4xl font-bold mb-4 text-center"> Welcome to Altar of Grace Pentecostal Ministry</h1>
-                    <p className="text-lg mb-6 text-start leading-7 "> At Altar of Grace Ministry, we believe in spreading the love and grace of God to all.
-                        Our mission is to create a welcoming and nurturing community where everyone can experience
-                        God&apos;s presence, grow in faith, and find purpose in life.</p>
-                    <div className="flex items-center justify-center text-center">
-                        <StreamingModal />
-                    </div>
-                </div>
-                <div className="md:w-1/2">
-                    <Swiper
-                        // install Swiper modules
-                        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        autoplay
-                        loop
-                        navigation
-                        pagination={{ clickable: true }}
-                        // scrollbar={{ draggable: true }}
-                        onSwiper={(swiper) => console.log(swiper)}
-                        onSlideChange={() => console.log('slide change')}
-                    >
-                        <SwiperSlide>
-                            <div className="relative">
-                                <img src="https://via.placeholder.com/600x400" alt="Slide 1" className="rounded shadow-md" />
-                                <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-4 rounded-b">
-                                    <p>Image Description 1</p>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className="relative">
-                                <img src="https://via.placeholder.com/600x400" alt="Slide 2" className="rounded shadow-md" />
-                                <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-4 rounded-b">
-                                    <p>Image Description 2</p>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className="relative">
-                                <img src="https://via.placeholder.com/600x400" alt="Slide 3" className="rounded shadow-md" />
-                                <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-4 rounded-b">
-                                    <p>Image Description 3</p>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                    </Swiper>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-export default Hero;
+      <main className={`flex lg:flex-row lg:items-center flex-col items-start px-4 z-10 relative overflow-hidden md:px-16`}>
+        <div className="flex flex-col gap-4 lg:w-1/2 justify-center lg:items-start lg:text-left w-full items-center text-center mb-5 md:mb-0">
+          <h1 className='md:text-5xl text-4xl mx-auto lg:mx-0 font-bold leading-tight text-navy'>
+            We're about <span style={{color: `${colorDeep}`}}>{mainText}!</span>
+          </h1>
+          <p className='leading-normal md:text-2xl text-lg text-navy'>{subText}</p>
+          <Button 
+            type='button'
+            text='Get Started'
+            className='mt-8 text-xl font-bold py-4 px-9 focus:outline-none md:w-2/5 lg:w-1/2 2xl:w-2/5'
+            style={window.innerWidth > 767 ? { backgroundColor: `${colorDeep}`, boxShadow: `${shadow}` } : { backgroundColor: `${colorDeep}`, boxShadow: `${mobileShadow}` }}
+          />
+        </div>
+  
+        <div className = "lg:w-3/5 w-full lg:-mt-6 relative">
+          <img  src={img} loading="eager" alt={img} className = "w-3/5 mx-auto" width = "500" height = "300"/>
+        </div>
+      </main>
+    )
+  }
+  
+  export default Hero

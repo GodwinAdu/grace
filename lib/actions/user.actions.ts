@@ -33,13 +33,15 @@ export async function getAllUsers() {
     }
 }
 
-export async function getUserById(userId: string) {
+export async function getUserById(clerkId: string) {
     try {
         await connectToDatabase()
+        console.log(clerkId);
 
-        const user = await User.findById(userId)
+        const user = await User.findOne({ clerkId })
 
         if (!user) throw new Error('User not found')
+
         return JSON.parse(JSON.stringify(user))
     } catch (error) {
         handleError(error)

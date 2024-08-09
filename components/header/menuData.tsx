@@ -5,12 +5,12 @@ const menuData = [
       path: "/",
       newTab: false,
     },
-    {
-      id: 2,
-      title: "About",
-      path: "/about",
-      newTab: false,
-    },
+    // {
+    //   id: 2,
+    //   title: "Dashboard",
+    //   path: "/dashboard",
+    //   newTab: false,
+    // },
     {
       id: 33,
       title: "Sermon",
@@ -36,8 +36,8 @@ const menuData = [
       submenu: [
         {
           id: 44,
-          title: "Dashboard",
-          path: "/dashboard",
+          title: "About Us",
+          path: "/about",
           newTab: false,
         },
         {

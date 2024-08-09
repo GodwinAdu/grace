@@ -1,69 +1,36 @@
-"use client"
-import Autoplay from "embla-carousel-autoplay"
- 
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import { useRef } from "react"
-const Hero2 = () => {
-    const plugin = useRef(
-        Autoplay({ delay: 2000, stopOnInteraction: true })
-      )
-    
-    return (
-        <section className="overflow-hidden bg-gray-50 sm:grid sm:grid-cols-3 pt-24">
-            <div className="p-8 md:p-12 lg:px-16 lg:py-24 col-span-2">
-                <div className="mx-auto max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
-                    <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit
-                    </h2>
+import { Header, Hero } from "../components";
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import {Autoplay, EffectFade} from 'swiper/modules';
+import { data } from "../data/data";
 
-                    <p className="hidden text-gray-500 md:mt-4 md:block">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et, egestas tempus tellus etiam
-                        sed. Quam a scelerisque amet ullamcorper eu enim et fermentum, augue. Aliquet amet volutpat
-                        quisque ut interdum tincidunt duis.
-                    </p>
-
-                    <div className="mt-4 md:mt-8">
-                        <a
-                            href="#"
-                            className="inline-block rounded bg-emerald-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
-                        >
-                            Get Started Today
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <Carousel
-                plugins={[plugin.current]}
-                className="w-full mx-auto "
-                onMouseEnter={plugin.current.stop}
-                onMouseLeave={plugin.current.reset}
-            >
-                <CarouselContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                        <CarouselItem key={index}>
-                            <div className="p-1">
-                                <Card>
-                                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                                        <span className="text-4xl font-semibold">{index + 1}</span>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                {/* <CarouselPrevious />
-                <CarouselNext /> */}
-            </Carousel>
-        </section>
-    )
+const Home = () => {
+  return (
+   <Swiper
+    spaceBetween={30}
+    speed={3000}
+    autoplay={{delay: 6000, disableOnInteraction: false}}
+    effect={"fade"}
+    fadeEffect={{crossFade: true}}
+    modules={[Autoplay, EffectFade]}
+    className="mySwiper"
+   >
+      {data.map(({id, colorDeep, colorLite, mainText, subText, shadow, mobileShadow, img}) => (
+        <SwiperSlide key={id} style={{backgroundColor: `${colorLite}`}} className="w-full h-screen flex flex-col md:gap-10 gap-4 pt-4 md:pt-8">
+          <Header colorDeep={colorDeep}/>
+          <Hero 
+            colorDeep={colorDeep}
+            mainText={mainText}
+            subText={subText}
+            shadow={shadow}
+            mobileShadow={mobileShadow}
+            img={img}
+          />
+        </SwiperSlide>
+      ))}
+   </Swiper>
+  )
 }
 
-export default Hero2
+export default Home
