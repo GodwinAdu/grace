@@ -5,17 +5,16 @@ import StreamingModal from './StreamingModal';
 
 const ImageSlider = () => {
     const [items, setItems] = useState([
-        { id: 1, name: 'Youth of Grace', img: '/assets/images/12.jpeg' },
-        { id: 2, name: 'Women of Grace', img: '/assets/images/8.jpeg' },
-        { id: 3, name: 'Men of Grace', img: '/assets/images/11.jpeg' },
-        { id: 4, name: 'Children of Grace', img: '/assets/images/15.jpeg' },
-        { id: 5, name: 'Prayer Circle', img: '/assets/images/2.jpeg' },
-        { id: 6, name: 'Music Ministry', img: '/assets/images/18.jpeg' },
-        // { id: 7, name: 'KINGFISHER', img: 'image/kingfirser2.jpeg' },
-        // { id: 8, name: 'PARROT', img: 'image/parrot2.jpg' },
-        // { id: 9, name: 'HERON', img: 'image/heron.jpeg' },
-        // { id: 10, name: 'BUTTERFLY', img: 'image/butterfly2.jpg' },
-        // { id: 11, name: 'PARROT', img: 'image/parrot2.jpg' },
+        { id: 1, name: 'Youth of Grace', img: '/hero/1.jpeg' },
+        { id: 2, name: 'Women of Grace', img: '/hero/2.jpeg' },
+        { id: 3, name: 'Men of Grace', img: '/hero/3.jpeg' },
+        { id: 4, name: 'Children of Grace', img: '/hero/4.jpeg' },
+        { id: 5, name: 'Prayer Circle', img: '/hero/5.jpeg' },
+        { id: 6, name: 'Music Ministry', img: '/hero/6.jpeg' },
+        { id: 7, name: 'Join Us', img: '/hero/7.jpeg' },
+        { id: 8, name: 'Live On Youtube', img: 'i/hero/8.jpeg' },
+        { id: 9, name: 'Live on Facebook', img: '/hero/9.jpeg' },
+        { id: 10, name: 'Jah Be with You', img: '/hero/10.jpeg' },
     ]);
 
     const listRef = useRef(null);
