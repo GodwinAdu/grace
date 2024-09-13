@@ -14,7 +14,7 @@ const ImageSlider = () => {
         { id: 7, name: 'Join Us', img: '/hero/7.jpeg' },
         { id: 8, name: 'Live On Youtube', img: 'i/hero/8.jpeg' },
         { id: 9, name: 'Live on Facebook', img: '/hero/9.jpeg' },
-        { id: 10, name: 'Jah Be with You', img: '/hero/10.jpeg' },
+        { id: 10, name: 'God Be with You', img: '/hero/10.jpeg' },
     ]);
 
     const listRef = useRef(null);
